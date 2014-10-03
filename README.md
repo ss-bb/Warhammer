@@ -8,14 +8,17 @@ in order to train myself in JS and because i like Warhammer a lot , i will try t
 
 The main developpement point : 
 
-Using Backbones : The goal is to have a strong model that will alloy to add avery race as easy as possible.
-basic table will include :
+Using Backbones : The goal is to have a strong model that will allow to add avery race as easy as possible.
+
+basic model will include :
 FullUnitIfno(M,CC,...,point cost,TYPE (giant/metal) ,SPECIAL HABILITY(firethrower) , Race(dwarf))
 unit(M,CC,...)
 Element(something) for things like moutain/forest but also special unit like dwarf anvil and so.
 equipement(link to a unit)
 Tequipement(link to a troop)
 troop(unit, nb, tequipement -> (for now i will supose that troop special hability like "charge buffle" for ogre will be an "equipement"))
+
+at begining, some unit will be hard in the model. Then have a BDD (sqlite enough) to recover race unit.
 
 When this will be code. 
 
