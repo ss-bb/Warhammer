@@ -2,8 +2,8 @@
  * Created by olivier.goyon on 06/10/2014.
  */
 //test de création de UNIT
-var troll = new Unit({M:5,CC:5,CT:5,F:5,E:5,Pv:5,I:5,A:5,Cd:10});
-var gobelin = new Unit();
+var troll = new Unit({M:5,CC:5,CT:5,F:5,E:5,Pv:5,I:5,A:5,Cd:10,Svg:1});
+var sacdesable = new Unit({Pv:15,Svg:2});
 
 //test de création de l'infoUnit
 var InfoTroll = new FullUnitIfno({Unit:troll,PointCost:35,Race:"ogre"});
@@ -22,7 +22,7 @@ uniteogre.addEquipement(armor);
 
 
 console.log("troll :"+troll);
-console.log("gobelin : "+gobelin);
+console.log("sacdesable : "+sacdesable);
 console.log("InfoTroll : "+InfoTroll);
 console.log("forest : "+forest);
 console.log("armor : "+armor);

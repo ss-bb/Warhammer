@@ -10,17 +10,14 @@ The main developpement point :
 Using Backbones : The goal is to have a strong model that will allow to add avery race as easy as possible.
 
 basic model will include :
+
 FullUnitIfno(M,CC,...,point cost,TYPE (giant/metal) ,SPECIAL HABILITY(firethrower) , Race(dwarf)).
+unit(M,CC,...).
+Element(something) for things like moutain/forest.
+equipement.
+troop(unit, nb, tequipement -> (for now i will supose that troop special hability like "charge buffle" for ogre will be an "equipement")).
 
-unit(M,CC,...)
-
-Element(something) for things like moutain/forest but also special unit like dwarf anvil and so.
-
-equipement
-
-troop(unit, nb, tequipement -> (for now i will supose that troop special hability like "charge buffle" for ogre will be an "equipement"))
-
-<span style="color:red">How to deal with Special Hability and item in a global way ? </span>
+How to deal with Special Hability and item in a global way ?
 
 at begining, some unit will be hard in the model. Then have a BDD (sqlite enough) to recover race unit.
 
