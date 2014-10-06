@@ -8,7 +8,8 @@ Unit = Backbone.Model.extend({
         Pv: 1,
         I: 0,
         A: 0,
-        Cd: 0
+        Cd: 0,
+        Svg:0
     },
 
     equipement:[],
@@ -19,6 +20,10 @@ Unit = Backbone.Model.extend({
 
     initialize: function(){
         console.log("a new unit join the battlefield");
+        this.on("change:Pv", function(model){
+            if(model.get("pv") <= 0)
+                alert("Im DEAD");
+        });
     }
 });
 
