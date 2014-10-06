@@ -3,20 +3,24 @@ Warhammer
 
 A Full Javascript Game in order to play to Warhammer (http://fr.wikipedia.org/wiki/Warhammer_Fantasy_Battle)
 
-in order to train myself in JS and because i like Warhammer a lot , i will try to create the informatique warhammer game (EASY BRO LOL , they say). 
-
+in order to train myself in JS and because i like Warhammer a lot , i will try to create the warhammer web game (EASY BRO LOL , they say).
 
 The main developpement point : 
 
 Using Backbones : The goal is to have a strong model that will allow to add avery race as easy as possible.
 
 basic model will include :
-FullUnitIfno(M,CC,...,point cost,TYPE (giant/metal) ,SPECIAL HABILITY(firethrower) , Race(dwarf))
+FullUnitIfno(M,CC,...,point cost,TYPE (giant/metal) ,SPECIAL HABILITY(firethrower) , Race(dwarf)).
+
 unit(M,CC,...)
+
 Element(something) for things like moutain/forest but also special unit like dwarf anvil and so.
-equipement(link to a unit)
-Tequipement(link to a troop)
+
+equipement
+
 troop(unit, nb, tequipement -> (for now i will supose that troop special hability like "charge buffle" for ogre will be an "equipement"))
+
+<span style="color:red">How to deal with Special Hability and item in a global way ? </span>
 
 at begining, some unit will be hard in the model. Then have a BDD (sqlite enough) to recover race unit.
 
