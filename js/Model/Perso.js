@@ -1,10 +1,10 @@
 Unit = Backbone.Model.extend({
     defaults: {
         M: 0,
-        CC: 0,
+        CC: 1,
         CT: 0,
-        F: 0,
-        E: 0,
+        F: 1,
+        E: 1,
         Pv: 1,
         I: 0,
         A: 0,
@@ -20,12 +20,17 @@ Unit = Backbone.Model.extend({
 
     initialize: function(){
         console.log("a new unit join the battlefield");
-        this.on("change:Pv", function(model){
-            if(model.get("pv") <= 0)
-                alert("Im DEAD");
-        });
+        this.on("change:Pv", this.someAction /*function to call*/, this);
+    },
+
+    someAction: function(model, value, options){
+        //console.log("je me fais défonce, il me reste " +value+" pv.");
+        if(value<=0)
+            ajouterTexteCombat("je suis mort",'black');
     }
+
 });
+
 
 FullUnitIfno = Backbone.Model.extend({
     defaults: {

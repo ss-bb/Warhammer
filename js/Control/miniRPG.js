@@ -7,54 +7,72 @@ var FE;
 var TabCombat = $.getJSON('TabCombat.json',function(data){
     CC = data.CC;
     FE = data.FE;
-    console.log(CC);
-    console.log(FE);
-    debutcombat(ogre,unsac);debutcombat(ogre,unsac);
+    debutcombat(ogre,unsac);
 });
 
 
 
 var ogre = new Unit({M:5,CC:5,CT:5,F:5,E:5,Pv:5,I:5,A:5,Cd:10});
-var unsac = new Unit({Pv:15});
+var unsac = new Unit({Pv:15,Svg:3});
 
 
 
 function debutcombat(me,enemy){
+
     if(me.get("I") > enemy.get("I")){
-        attaque(me, enemy);
-        attaque(enemy, me);
+        var Tuer = attaque(me, enemy);
+        if(Tuer != 0)
+            attaque(enemy, me);
     }
     else if(me.get("I") == enemy.get("I"))
     {
         if(rand() > 0.5){
-            attaque(me, enemy);
-            attaque(enemy, me)
+            var Tuer = attaque(me, enemy);
+            if(Tuer != 0)
+                attaque(enemy, me);
         }
         else{
-            attaque(enemy, me);
-            attaque(me, enemy);
+            var Tuer = attaque(enemy, me);
+            if(Tuer != 0)
+                attaque(me, enemy);
         }
     }
     else{
-        attaque(enemy, me);
-        attaque(me, enemy);
+        var Tuer = attaque(enemy, me);
+        if(Tuer != 0)
+            attaque(me, enemy);
     }
+
+    while(Tuer != 0){
+        Tuer = attaque(me,enemy);
+    }
+
+    console.log("Vie du sac : "+enemy.get("Pv"));
+    console.log("Vie de l'ogre : "+me.get("Pv"));
+
 }
 
 function attaque(unit1,unit2){
 
     var attaquetoucher=0;
     var attaqueblesser=0;
+    var attaqueSauvegarder=0;
     difCombat = CC[unit1.get("CC")][unit2.get("CC")];
     for(var nbattaque=0;nbattaque<unit1.get("A");nbattaque++){
         if(rand16() >= difCombat)
             attaquetoucher++;
+    }
+    ajouterTexteCombat(unit1.cid + " touche " + attaquetoucher + " fois " +unit2.cid,'green');
+    if(attaquetoucher == 0){
+        ajouterTexteCombat("j'ai rater toute mes attaques comme un ****",'black');
+        return unit2.get("Pv");
     }
     difForce = FE[unit1.get("F")][unit2.get("E")];
     for(var i=0;i < attaquetoucher;i++){
         if(rand16() >= difForce)
             attaqueblesser++;
     }
+    ajouterTexteCombat(unit1.cid + " blesse " + attaqueblesser + " fois " +unit2.cid,'red');
 
     var PvRestant = unit2.get("Pv");
     if(4-unit1.get("F") >0)
@@ -62,13 +80,28 @@ function attaque(unit1,unit2){
     else
         difSvg = unit2.get("Svg");
 
-    if(difSvg >= 0)
+    if(difSvg <= 0)
         PvRestant -= attaqueblesser;
     else
         for (var i = 0; i < attaqueblesser; i++)
             if (rand16() >= difSvg)
                 PvRestant--;
+            else
+                attaqueSauvegarder++;
 
+    ajouterTexteCombat("l'armure de " +unit2.cid+ " lui évite "+attaqueSauvegarder+"degats",'blue');
     unit2.set("Pv",PvRestant);
+
+    if(PvRestant > 0)
+        return PvRestant;
+    return 0;
+}
+
+function ajouterTexteCombat(texte,couleur){
+    $('<p/>',{
+        'class':'baston',
+        'html':texte,
+        'style':'color:'+couleur+';'
+    }).appendTo('#resumecombat');
 }
 
