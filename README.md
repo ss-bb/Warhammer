@@ -82,4 +82,4 @@ add a begining screen to create his unit army. look for maximum point, maximum n
 
 OK , i have my game, i can play, it's funny but... i play alone. It's a problem.
 
-implement a multiplayer way of gaming. I will consider that cheat is "impossible", and remember the possibility to have a "spectator mode". each one shall have his "owned" view. For now, they can't change this view.
+implement a multiplayer way of gaming. I won't take care abaout cheating for now, and remember the possibility to have a "spectator mode". each one shall have his "owned" view. For now, they can't change this view.
