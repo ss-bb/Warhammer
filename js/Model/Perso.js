@@ -20,10 +20,10 @@ Unit = Backbone.Model.extend({
 
     initialize: function(){
         console.log("a new unit join the battlefield");
-        this.on("change:Pv", this.someAction /*function to call*/, this);
+        this.on("change:Pv", this.changePV /*function to call*/, this);
     },
 
-    someAction: function(model, value, options){
+    changePV: function(model, value, options){
         //console.log("je me fais défonce, il me reste " +value+" pv.");
         if(value<=0)
             ajouterTexteCombat("je suis mort",'black');
@@ -77,7 +77,8 @@ Troop = Backbone.Model.extend({
 
     default:{
         unit:null,
-        number:0
+        number:0,
+        Degatrecu:0
     },
 
     equipement:[],
@@ -88,6 +89,12 @@ Troop = Backbone.Model.extend({
 
     initialize: function(){
         console.log("Troupe crée");
+        this.on("change:Degatrecu", this.changedegat /*function to call*/, this);
+    },
+
+    changedegat: function(model, value, options){
+        //console.log("je me fais défonce, il me reste " +value+" pv.");
+        console.log("degat recu = "+value);
     }
 });
 

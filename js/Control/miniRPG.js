@@ -1,19 +1,24 @@
 /**
  * Created by olivier.goyon on 06/10/2014.
  */
+
+/* le but est de se faire combattre deux unité a l'arache.*/
 var CC;
 var FE;
 
 var TabCombat = $.getJSON('TabCombat.json',function(data){
+
+    var ogre = new Unit({M:5,CC:5,F:5,E:5,Pv:5,I:5,A:5,Cd:10,Svg:2});
+    var nain = new Unit({Pv:2,Svg:1,CC:3,F:3,E:3,A:2,Cd:7});
+
     CC = data.CC;
     FE = data.FE;
-    debutcombat(ogre,unsac);
+    debutcombat(ogre,nain);
+
+    console.log("fin combat");
 });
 
 
-
-var ogre = new Unit({M:5,CC:5,CT:5,F:5,E:5,Pv:5,I:5,A:5,Cd:10});
-var unsac = new Unit({Pv:15,Svg:3});
 
 
 
@@ -42,14 +47,6 @@ function debutcombat(me,enemy){
         if(Tuer != 0)
             attaque(me, enemy);
     }
-
-    while(Tuer != 0){
-        Tuer = attaque(me,enemy);
-    }
-
-    console.log("Vie du sac : "+enemy.get("Pv"));
-    console.log("Vie de l'ogre : "+me.get("Pv"));
-
 }
 
 function attaque(unit1,unit2){
