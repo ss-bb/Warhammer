@@ -1,7 +1,7 @@
 Warhammer
 =========
 
-<h1>A Full Javascript Game in order to play to Warhammer (http://fr.wikipedia.org/wiki/Warhammer_Fantasy_Battle)</h1>
+<h2>A Full Javascript Game in order to play to Warhammer (http://fr.wikipedia.org/wiki/Warhammer_Fantasy_Battle)</h2>
 
 in order to train myself in JS and because i like Warhammer a lot , i will try to create the warhammer web game (EASY BRO LOL , they say).
 
