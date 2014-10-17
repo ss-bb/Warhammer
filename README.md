@@ -5,6 +5,8 @@ A Full Javascript Game in order to play to Warhammer (http://fr.wikipedia.org/wi
 
 in order to train myself in JS and because i like Warhammer a lot , i will try to create the warhammer web game (EASY BRO LOL , they say).
 
+Any help will be accept with pleasure :).
+
 The main developpement point : 
 
 Using Backbones : The goal is to have a strong model that will allow to add avery race as easy as possible.
