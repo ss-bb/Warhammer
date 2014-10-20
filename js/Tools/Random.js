@@ -3,12 +3,18 @@
  */
 function rand(){
     return Math.random();
+    //to change the logic for a better Random generator than javascript one. just change Here and not in sub fonction.
 }
 
-function randB(min,max){
-    return Math.random() * (max - min) + min;
+function randomEntre(min,max){
+    return rand * (max - min) + min;
 }
 
-function rand16(){
-    return randB(1,6);
+function rand6(){
+    return randomEntre(1,6);
 }
+
+function rand12(){
+    return randomEntre(1,12);
+}
+

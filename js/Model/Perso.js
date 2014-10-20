@@ -78,7 +78,7 @@ Troop = Backbone.Model.extend({
     default:{
         unit:null,
         number:0,
-        Degatrecu:0
+        DegatrecuTour:0
     },
 
     equipement:[],

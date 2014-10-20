@@ -56,7 +56,7 @@ function attaque(unit1,unit2){
     var attaqueSauvegarder=0;
     difCombat = CC[unit1.get("CC")][unit2.get("CC")];
     for(var nbattaque=0;nbattaque<unit1.get("A");nbattaque++){
-        if(rand16() >= difCombat)
+        if(rand6() >= difCombat)
             attaquetoucher++;
     }
     ajouterTexteCombat(unit1.cid + " touche " + attaquetoucher + " fois " +unit2.cid,'green');
@@ -66,7 +66,7 @@ function attaque(unit1,unit2){
     }
     difForce = FE[unit1.get("F")][unit2.get("E")];
     for(var i=0;i < attaquetoucher;i++){
-        if(rand16() >= difForce)
+        if(rand6() >= difForce)
             attaqueblesser++;
     }
     ajouterTexteCombat(unit1.cid + " blesse " + attaqueblesser + " fois " +unit2.cid,'red');
@@ -81,7 +81,7 @@ function attaque(unit1,unit2){
         PvRestant -= attaqueblesser;
     else
         for (var i = 0; i < attaqueblesser; i++)
-            if (rand16() >= difSvg)
+            if (rand6() >= difSvg)
                 PvRestant--;
             else
                 attaqueSauvegarder++;
