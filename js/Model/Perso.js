@@ -1,5 +1,6 @@
 Unit = Backbone.Model.extend({
-    defaults: {
+
+    default:{
         M: 0,
         CC: 1,
         CT: 0,
@@ -9,7 +10,8 @@ Unit = Backbone.Model.extend({
         I: 0,
         A: 0,
         Cd: 0,
-        Svg:0
+        Svg:0,
+        SvgInvu:0
     },
 
     equipement:[],
@@ -24,25 +26,68 @@ Unit = Backbone.Model.extend({
     },
 
     changePV: function(model, value, options){
-        //console.log("je me fais défonce, il me reste " +value+" pv.");
-        if(value<=0)
+        console.log("je me fais défonce, il me reste " +value+" pv.");
+        if(value<=0){
+            this.Pv=0;
             ajouterTexteCombat("je suis mort",'black');
-    }
+        }
 
+    },
+
+    attaquerHeros: function(enemy){
+        var attaquetoucher=0;
+        var attaqueblesser=0;
+        var attaqueSauvegarder=0;
+        difCombat = CC[this.get("CC")][enemy.get("CC")];
+        for(var nbattaque=0;nbattaque<this.get("A");nbattaque++){
+            if(rand6() >= difCombat)
+                attaquetoucher++;
+        }
+
+        ajouterTexteCombat(this.cid + " touche " + attaquetoucher + " fois " +enemy.cid,'green');
+        if(attaquetoucher == 0){
+            ajouterTexteCombat(this.cid +" loupe toute ces attaques",'black');
+            return;
+        }
+        difForce = FE[this.get("F")][enemy.get("E")];
+        for(var i=0;i < attaquetoucher;i++){
+            if(rand6() >= difForce)
+                attaqueblesser++;
+        }
+        ajouterTexteCombat(this.cid + " blesse " + attaqueblesser + " fois " +enemy.cid,'red');
+
+        var PvRestant = enemy.get("Pv");
+        if(4-this.get("F") >0)
+            var difSvg = enemy.get("Svg")-(7-this.get("f"));
+        else
+            difSvg = enemy.get("Svg");
+
+        if(difSvg <= 0)
+            PvRestant -= attaqueblesser;
+        else
+            for (var i = 0; i < attaqueblesser; i++)
+                if (rand6() >= difSvg)
+                    PvRestant--;
+                else
+                    attaqueSauvegarder++;
+
+        ajouterTexteCombat("l'armure de " +enemy.cid+ " lui évite "+attaqueSauvegarder+"degats",'blue');
+
+        enemy.set("Pv",PvRestant);
+
+    }
 });
 
 
-FullUnitIfno = Backbone.Model.extend({
+UnitBestaire = Backbone.Model.extend({/*pour la création des armées plus que pour "jouer"*/
     defaults: {
-        Unit:null,
         PointCost: 0,
-        Type: null,
         SH:null,
         Race:null
     },
 
     initialize: function(){
-        console.log("fullunitinfo called");
+        console.log("UnitBestaire called");
     }
 });
 
@@ -63,8 +108,7 @@ Element = Backbone.Model.extend({
 Equipement = Backbone.Model.extend({
 
     default:{
-        SH:null,
-        amor:0
+        SH:null/*see some way to modify the ReelStat of unit*/
     },
 
     initialize: function(){
@@ -78,7 +122,7 @@ Troop = Backbone.Model.extend({
     default:{
         unit:null,
         number:0,
-        DegatrecuTour:0
+        numberFront:0
     },
 
     equipement:[],
@@ -95,6 +139,61 @@ Troop = Backbone.Model.extend({
     changedegat: function(model, value, options){
         //console.log("je me fais défonce, il me reste " +value+" pv.");
         console.log("degat recu = "+value);
+    },
+
+    attaquerTroop : function(enemyTroop){
+        var attaquetoucher=0;
+        var attaqueblesser=0;
+        var attaqueSauvegarder=0;
+        var attaqueNonSauvegarder=0;
+
+        unit1=this.get('unit');
+        unit2=enemyTroop.get('unit');
+
+
+        difCombat = CC[unit1.get("CC")][unit2.get("CC")];
+
+        var nbattaquemax = unit1.get("A")*this.get('number');
+
+        for(var nbattaque=0;nbattaque<nbattaquemax;nbattaque++){
+            if(rand6() >= difCombat)
+                attaquetoucher++;
+        }
+        ajouterTexteCombat(unit1.cid + " touche " + attaquetoucher + " fois " +unit2.cid,'green');
+        if(attaquetoucher == 0){
+            ajouterTexteCombat("la troupe n'a fait aucun dégat.",'black');
+            return
+        }
+        difForce = FE[unit1.get("F")][unit2.get("E")];
+        for(var i=0;i < attaquetoucher;i++){
+            if(rand6() >= difForce)
+                attaqueblesser++;
+        }
+        ajouterTexteCombat(unit1.cid + " blesse " + attaqueblesser + " fois " +unit2.cid,'red');
+
+        if(4-unit1.get("F") >0)
+            var difSvg = unit2.get("Svg")-(7-unit1.get("f"));
+        else
+            difSvg = unit2.get("Svg");
+
+        if(difSvg <= 0)
+            attaqueNonSauvegarder += attaqueblesser;
+        else
+            for (var i = 0; i < attaqueblesser; i++)
+                if (rand6() >= difSvg)
+                    attaqueNonSauvegarder++;
+                else
+                    attaqueSauvegarder++;
+
+        ajouterTexteCombat("l'armure de " +enemyTroop.cid+ " lui évite "+attaqueSauvegarder+"degats au total",'blue');
+        return attaqueNonSauvegarder;
     }
 });
 
+function ajouterTexteCombat(texte,couleur){
+    $('<p/>',{
+        'class':'baston',
+        'html':texte,
+        'style':'color:'+couleur+';'
+    }).appendTo('#resumecombat');
+}

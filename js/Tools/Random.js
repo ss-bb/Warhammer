@@ -7,7 +7,7 @@ function rand(){
 }
 
 function randomEntre(min,max){
-    return rand * (max - min) + min;
+    return parseInt(rand() * max + min);
 }
 
 function rand6(){
