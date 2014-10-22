@@ -3,10 +3,8 @@
  */
 //test de création de UNIT
 
-var CC;
-var FE;
 
-//testRand(); // a ne pas tester trop souvent svp, c'est long
+//testRand(); // tester les series aléatoire resultat "visuel" dans la console.
 
 function testRand(){
 
@@ -29,6 +27,10 @@ function testRand(){
 
     console.log(tab);
 }
+
+
+var CC;
+var FE;
 
 var TabCombat = $.getJSON('TabCombat.json',function(data){
     CC = data.CC;
