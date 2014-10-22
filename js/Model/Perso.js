@@ -1,6 +1,6 @@
-Unit = Backbone.Model.extend({
+var Unit = Backbone.Model.extend({
 
-    default:{
+    defaults:{
         M: 0,
         CC: 1,
         CT: 0,
@@ -11,7 +11,8 @@ Unit = Backbone.Model.extend({
         A: 0,
         Cd: 0,
         Svg:0,
-        SvgInvu:0
+        SvgInvu:0,
+        Class:'Unit'
     },
 
     equipement:[],
@@ -72,14 +73,13 @@ Unit = Backbone.Model.extend({
                     attaqueSauvegarder++;
 
         ajouterTexteCombat("l'armure de " +enemy.cid+ " lui évite "+attaqueSauvegarder+"degats",'blue');
-
         enemy.set("Pv",PvRestant);
 
     }
 });
 
 
-UnitBestaire = Backbone.Model.extend({/*pour la création des armées plus que pour "jouer"*/
+var UnitBestaire = Backbone.Model.extend({/*pour la création des armées plus que pour "jouer"*/
     defaults: {
         PointCost: 0,
         SH:null,
@@ -91,9 +91,9 @@ UnitBestaire = Backbone.Model.extend({/*pour la création des armées plus que p
     }
 });
 
-Element = Backbone.Model.extend({
+var Element = Backbone.Model.extend({
 
-    default:{
+    defaults:{
         slow:0,
         protect:0,
         high:false,
@@ -105,9 +105,9 @@ Element = Backbone.Model.extend({
     }
 });
 
-Equipement = Backbone.Model.extend({
+var Equipement = Backbone.Model.extend({
 
-    default:{
+    defaults:{
         SH:null/*see some way to modify the ReelStat of unit*/
     },
 
@@ -117,12 +117,12 @@ Equipement = Backbone.Model.extend({
 });
 
 
-Troop = Backbone.Model.extend({
+var Troop = Backbone.Model.extend({
 
-    default:{
+    defaults:{
         unit:null,
         number:0,
-        numberFront:0
+        numberFrontMax:1
     },
 
     equipement:[],

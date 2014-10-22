@@ -14,7 +14,7 @@ var TabCombat = $.getJSON('TabCombat.json',function(data){
 
 function lancerRPG(){
 
-    creeUnit();
+    CreeUnit();
 
     equipe1joue();
 
@@ -29,13 +29,17 @@ function lancerRPG(){
 
 function CreeUnit(){
 
+    var troll = new Unit({M: 5, CC: 5, CT: 5, F: 5, E: 5, Pv: 5, I: 5, A: 5, Cd: 10, Svg: 1});
+
+    equipe1.push(troll);
+
 }
 
 function equipe1joue(){
 
     /* test rapido de si sa marche*/
     for(var bataillon of equipe1){ // supporter par firefox THEORIQUEMENT
-        console.log(bataillon);//choper son "type" pour diferencier troop de unit pour savoir qui appeler en dessous
+        console.log((bataillon.get('Class')));//choper son "type" pour diferencier troop de unit pour savoir qui appeler en dessous
     }
 }
 
