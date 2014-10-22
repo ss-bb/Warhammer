@@ -122,7 +122,9 @@ var Troop = Backbone.Model.extend({
     defaults:{
         unit:null,
         number:0,
-        numberFrontMax:1
+        nbLose:0,
+        numberFrontMax:1,
+        Class:"Troop"
     },
 
     equipement:[],
@@ -189,11 +191,3 @@ var Troop = Backbone.Model.extend({
         return attaqueNonSauvegarder;
     }
 });
-
-function ajouterTexteCombat(texte,couleur){
-    $('<p/>',{
-        'class':'baston',
-        'html':texte,
-        'style':'color:'+couleur+';'
-    }).appendTo('#resumecombat');
-}
