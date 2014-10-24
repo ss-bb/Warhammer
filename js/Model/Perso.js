@@ -46,7 +46,7 @@ var Unit = Backbone.Model.extend({
         var attaquetoucher=0;
         var attaqueblesser=0;
         var attaqueSauvegarder=0;
-        difCombat = CC[this.get("CC")][enemy.get("CC")];
+        var difCombat = CC[this.get("CC")][enemy.get("CC")];
         for(var nbattaque=0;nbattaque<this.get("A");nbattaque++){
             if(rand6() >= difCombat)
                 attaquetoucher++;
@@ -57,7 +57,7 @@ var Unit = Backbone.Model.extend({
             ajouterTexteCombat(this.cid +" loupe toute ces attaques",'black');
             return;
         }
-        difForce = FE[this.get("F")][enemy.get("E")];
+        var difForce = FE[this.get("F")][enemy.get("E")];
         for(var i=0;i < attaquetoucher;i++){
             if(rand6() >= difForce)
                 attaqueblesser++;
@@ -73,7 +73,7 @@ var Unit = Backbone.Model.extend({
         if(difSvg <= 0)
             PvRestant -= attaqueblesser;
         else
-            for (var i = 0; i < attaqueblesser; i++)
+            for (i = 0; i < attaqueblesser; i++)
                 if (rand6() >= difSvg)
                     PvRestant--;
                 else
@@ -84,7 +84,7 @@ var Unit = Backbone.Model.extend({
     },
 
     isAlive: function(){
-        return this.Pv >0 ? True : False;
+        return this.Pv > 0;
     }
 
 });
@@ -134,7 +134,8 @@ var Troop = Backbone.Model.extend({
         unit:null,
         number:0,
         nbLose:0,
-        numberFrontMax:1,
+        nbLoseTurn:0,
+        nbFrontMax:1,
         Class:"Troop"
     },
 
@@ -147,11 +148,23 @@ var Troop = Backbone.Model.extend({
     initialize: function(){
         console.log("Troupe crée");
         this.on("change:Degatrecu", this.changedegat /*function to call*/, this);
+        this.on("change:DmgTurn", this.changedmgturn/*function to call*/, this);
     },
 
     changedegat: function(model, value, options){
         //console.log("je me fais défonce, il me reste " +value+" pv.");
         console.log("degat recu = "+value);
+    },
+
+    changedmgturn: function(model, value, options){
+        //console.log("je me fais défonce, il me reste " +value+" pv.");
+        console.log("dégat du tour : "+value);
+        var vieUnit = this.get('Unit').get('Pv');
+        this.set('NbLoseTurn',this.get('NbLoseTurn')+value/vieUnit);
+        this.set('NbLose',this.get('NbLose')+value/vieUnit);
+        var vieRegen = value%vieUnit;
+        if(vieRegen >0)
+            console.log("Pv n'ayant pas été retiré, il faudras en faire quelque chose :"+value%vieRegen);
     },
 
     attaquer: function(enemy){
@@ -167,13 +180,14 @@ var Troop = Backbone.Model.extend({
         var attaqueSauvegarder=0;
         var attaqueNonSauvegarder=0;
 
-        unit1=this.get('unit');
-        unit2=enemyTroop.get('unit');
+        var unit1=this.get('unit');
+        var unit2=enemyTroop.get('unit');
 
 
-        difCombat = CC[unit1.get("CC")][unit2.get("CC")];
+        var difCombat = CC[unit1.get("CC")][unit2.get("CC")];
 
-        var nbattaquemax = unit1.get("A")*this.get('number');
+        var nbattaquand = this.nbFrontMax - this.nbLoseTurn;
+        var nbattaquemax =  nbattaquand <=0 ? 0 : nbattaquand*this.get('Unit').get('A');
 
         for(var nbattaque=0;nbattaque<nbattaquemax;nbattaque++){
             if(rand6() >= difCombat)
@@ -184,7 +198,7 @@ var Troop = Backbone.Model.extend({
             ajouterTexteCombat("la troupe n'a fait aucun dégat.",'black');
             return
         }
-        difForce = FE[unit1.get("F")][unit2.get("E")];
+        var difForce = FE[unit1.get("F")][unit2.get("E")];
         for(var i=0;i < attaquetoucher;i++){
             if(rand6() >= difForce)
                 attaqueblesser++;
@@ -199,13 +213,13 @@ var Troop = Backbone.Model.extend({
         if(difSvg <= 0)
             attaqueNonSauvegarder += attaqueblesser;
         else
-            for (var i = 0; i < attaqueblesser; i++)
+            for (i = 0; i < attaqueblesser; i++)
                 if (rand6() >= difSvg)
                     attaqueNonSauvegarder++;
                 else
                     attaqueSauvegarder++;
 
         ajouterTexteCombat("l'armure de " +enemyTroop.cid+ " lui évite "+attaqueSauvegarder+"degats au total",'blue');
-        return attaqueNonSauvegarder;
+        enemyTroop.set('DmgTurn',attaqueNonSauvegarder);
     }
 });
