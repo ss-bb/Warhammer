@@ -13,19 +13,24 @@ Using Backbones : The goal is to have a strong model that will allow to add aver
 
 basic model will include :
 
-FullUnitIfno(M,CC,...,point cost,TYPE (giant/metal) ,SPECIAL HABILITY(firethrower) , Race(dwarf)).
-unit(M,CC,...).
-Element(something) for things like moutain/forest.
-equipement.
-troop(unit, nb, tequipement -> (for now i will supose that troop special hability like "charge buffle" for ogre will be an "equipement")).
+FullUnitIfno(point cost,TYPE (giant/metal) ,SPECIAL HABILITY(firethrower) , Race(dwarf)).
 
-How to deal with Special Hability and item in a global way ?
+unit(M,CC,...).
+
+Element(something) for things like moutain/forest.
+
+equipement(something).
+
+troop(unit, nb,etc)
+
+
+<h2>How to deal with Special Hability and item in a global way ? No answer for now</h2>
 
 at begining, some unit will be hard in the model. Then have a BDD (sqlite enough) to recover race unit.
 
-When this will be code. 
+implement the "battle turn". Make unit fight unit, troop fight troop , unit fight troop and troop fight unit.
 
-implement the "battle turn". Find a good "random" tools for it cause i will call it everytime.
+Find a good "random" tools for fighting ans so.
 
 ok. Main point , i will need a "tool" to test everytime. better make a little rpg for fight timing.
 
@@ -37,15 +42,16 @@ at this point, it's even quite good
 add some "real unit" , lets take dwarf and ogre  (dwarf without canon . HAHAHA)
 continue trying.
 
+Add some way to make 2 troop attaque 1 and be sure that nobody strike twice in a round.
+
 Add some way to make the "Champion fight" -> other troop unit stop fight while heroe try to kick each other. (dwarf heroe against ogre heroes. HAHAHAHAHA)
 
 at this point , i will be kinda happy.
 
-
 then implement the Commandement turn. (not as easy as it could be).
 make some try with the rpg game.
 
-OK. Easy but cool things stop here.NOW
+OK. Model stop here.NOW
 
 implement the draughtboard (try to steal one from a js chess project .... mhhhhhh that's an idea. or look at openclassroom tuto ... cheat man)
 add some feature to make a "movement turn" with the draughtboard
