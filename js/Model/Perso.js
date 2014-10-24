@@ -35,7 +35,14 @@ var Unit = Backbone.Model.extend({
 
     },
 
-    attaquerHeros: function(enemy){
+    attaquer: function(enemy){
+        if(enemy.get('Class') === 'Unit')
+            this.attaquerUnit(enemy);
+        else
+            this.attaquerTroop(enemy);
+    },
+
+    attaquerUnit: function(enemy){
         var attaquetoucher=0;
         var attaqueblesser=0;
         var attaqueSauvegarder=0;
@@ -74,8 +81,12 @@ var Unit = Backbone.Model.extend({
 
         ajouterTexteCombat("l'armure de " +enemy.cid+ " lui évite "+attaqueSauvegarder+"degats",'blue');
         enemy.set("Pv",PvRestant);
+    },
 
+    isAlive: function(){
+        return this.Pv >0 ? True : False;
     }
+
 });
 
 
@@ -141,6 +152,13 @@ var Troop = Backbone.Model.extend({
     changedegat: function(model, value, options){
         //console.log("je me fais défonce, il me reste " +value+" pv.");
         console.log("degat recu = "+value);
+    },
+
+    attaquer: function(enemy){
+        if(enemy.get('Class') === 'Unit')
+            this.attaquerUnit(enemy);
+        else
+            this.attaquerTroop(enemy);
     },
 
     attaquerTroop : function(enemyTroop){

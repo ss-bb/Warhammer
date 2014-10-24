@@ -1,5 +1,7 @@
 var CC;
 var FE;
+var equipe1 = [];
+var equipe2 = [];
 
 var TabCombat = $.getJSON('TabCombat.json',function(data){
     CC = data.CC;
@@ -8,106 +10,74 @@ var TabCombat = $.getJSON('TabCombat.json',function(data){
     lancerRPG();
 });
 
-equipe1 = [];
-equipe2 = [];
+
 
 function lancerRPG(){
 
     CreeUnit();
-    verifierUnit();
 
-    for(i=0;i<6;i++)
-    {
-        equipe1joue();
-        equipe2joue();
-    }
-}
-
-function equipe1joue(){
-    for (var bataillon of equipe1){
-        console.log((bataillon.get('Class')));
-    }
-
+    for(var i=0;i<6;i++)
+        lancerTour(i);
 }
 
 function CreeUnit(){
 
     var troll = new Unit({CC: 5,F: 5, E: 5, Pv: 5, I: 5, A: 5, Cd: 10, Svg: 1});
     equipe1.push(troll);
-    var TroupeTroll = new Troop({unit:troll,number:3,numberFrontMax:3})
+    var TroupeTroll = new Troop({unit:troll,number:3,numberFrontMax:3});
     equipe1.push(TroupeTroll);
 
     var nain = new Unit({CC: 4,F: 3, E: 4, Pv: 2, I: 3, A: 1, Cd: 8, Svg: 1});
     equipe2.push(troll);
-    var TroupeNaine = new Troop({unit:nain,number:10,numberFrontMax:4})
-    equipe2.push(TroupeTroll);
+    var TroupeNaine = new Troop({unit:nain,number:10,numberFrontMax:4});
+    equipe2.push(TroupeNaine);
 }
 
-function verifierUnit(){
+function lancerTour(numTour){
 
     /* test rapido de si sa marche*/
-    for(var bataillon of equipe1){ // supporter par firefox THEORIQUEMENT
-        console.log((bataillon.get('Class')));//choper son "type" pour diferencier troop de unit pour savoir qui appeler en dessous
+    for(var i=0;i<equipe1.length;i++){ // supporter par firefox THEORIQUEMENT
+        debutcombat(equipe1[i],equipe2[i]);
     }
 
-    for(var bataillonbis of equipe2){ // supporter par firefox THEORIQUEMENT
-        console.log((bataillonbis.get('Class')));//choper son "type" pour diferencier troop de unit pour savoir qui appeler en dessous
-    }
 }
 
 
+function debutcombat(unit1Class, unit2Class){
 
 
+    if(unit1Class.get('Class') === 'Unit')
+        var unit1 = unit1Class;
+    else
+        unit1 = unit1Class.get('Unit');
+
+    if(unit2Class.get('Class') === 'Unit')
+        var unit2 = unit2Class;
+    else
+        unit2 = unit2Class.get('Unit');
 
 
-function debutcombatTroop(unit1, unit2){
-
-    myinit= unit1.get('unit').get("I");
-    enemyinit=unit2.get('unit').get("I");
-
-    if(myinit > enemyinit){
-        var nbdegat = attaqueTroop(unit1, unit2);
-        infligerDegat(unit2,nbdegat);
+    if(unit1.get('I') > unit2.get('I')){
+        unit1.attaquer(unit2);
+        if(unit2.isAlive)
+            unit2.attaquer(unit1);
     }
-    else if(myinit == enemyinit)
+    else if(unit1.get('I') === unit2.get('I'))
     {
         if(rand() > 0.5){
-            var nbdegat = attaqueTroop(unit1, unit2);
-            infligerDegat(unit2,nbdegat);
+            unit1.attaquer(unit2);
+            if(unit2.isAlive)
+                unit2.attaquer(unit1);
         }
         else{
-            var nbdegat = attaqueTroop(unit2, unit1);
-            infligerDegat(unit1,nbdegat);
+            unit2.attaquer(unit1);
+            if(unit1.isAlive)
+                unit1.attaquer(unit2);
         }
     }
     else{
-        var nbdegat = attaqueTroop(unit2, unit1);
-        infligerDegat(unit1,nbdegat);
-    }
-}
-
-function debutcombat(me,enemy){
-    if(me.get("I") > enemy.get("I")){
-        var Tuer = attaque(me, enemy);
-        if(Tuer != 0)
-            attaque(enemy, me);
-    }
-    else if(me.get("I") == enemy.get("I"))
-    {
-        if(rand() > 0.5){
-            Tuer = attaque(me, enemy);
-            if(Tuer != 0)
-                attaque(enemy, me);
-        }
-        else{
-            Tuer = attaque(enemy, me);
-            if(Tuer != 0)
-                attaque(me, enemy);
-        }
-    }
-    else{
-        Tuer = attaque(enemy, me);
-        if(Tuer != 0)
-            attaque(me, enemy);
+        unit2.attaquer(unit1);
+        if(unit1.isAlive)
+            unit1.attaquer(unit2);
     }
 }
