@@ -83,48 +83,6 @@ var Unit = Backbone.Model.extend({
         enemy.set("Pv",PvRestant);
     },
 
-    attaquerTroop: function(enemy){
-        var attaquetoucher=0;
-        var attaqueblesser=0;
-        var attaqueSauvegarder=0;
-        var enemyunit = enemy.get('Unit');
-
-        var difCombat = CC[this.get("CC")][enemyunit.get("CC")];
-        for(var nbattaque=0;nbattaque<this.get("A");nbattaque++){
-            if(rand6() >= difCombat)
-                attaquetoucher++;
-        }
-
-        ajouterTexteCombat(this.cid + " touche " + attaquetoucher + " fois " +enemy.cid,'green');
-        if(attaquetoucher == 0){
-            ajouterTexteCombat(this.cid +" loupe toute ces attaques",'black');
-            return;
-        }
-        var difForce = FE[this.get("F")][enemyunit.get("E")];
-        for(var i=0;i < attaquetoucher;i++){
-            if(rand6() >= difForce)
-                attaqueblesser++;
-        }
-        ajouterTexteCombat(this.cid + " blesse " + attaqueblesser + " fois " +enemy.cid,'red');
-
-        if(4-unit1.get("F") >0)
-            var difSvg = unit2.get("Svg")-(7-unit1.get("f"));
-        else
-            difSvg = unit2.get("Svg");
-
-        if(difSvg <= 0)
-            attaqueNonSauvegarder += attaqueblesser;
-        else
-            for (i = 0; i < attaqueblesser; i++)
-                if (rand6() >= difSvg)
-                    attaqueNonSauvegarder++;
-                else
-                    attaqueSauvegarder++;
-
-        ajouterTexteCombat("l'armure de " +enemyTroop.cid+ " lui évite "+attaqueSauvegarder+"degats au total",'blue');
-        enemy.set('DmgTurn',attaqueNonSauvegarder);
-    },
-
     isAlive: function(){
         return this.Pv > 0;
     }
@@ -170,30 +128,22 @@ var Equipement = Backbone.Model.extend({
 });
 
 
-var Troop = Backbone.Collection.extend({
+var Troop = Backbone.Model.extend({
 
     defaults:{
+        unit:null,
+        number:0,
+        nbLose:0,
         nbLoseTurn:0,
         nbFrontMax:1,
         Class:"Troop"
     },
-    unittab:[],
+
     equipement:[],
 
     addEquipement:function(item){
         this.equipement.push(item);
     },
-
-    constructor : function ( attributes, options ) {
-        console.log(Object.keys(attributes));
-        /*
-        for(var i=0; i< attributes['number'];i++){
-            unittab=[];
-            unittab.push(new Unit(attributes['unit']));
-        }*/
-        Backbone.Model.apply(this, arguments);
-    },
-
 
     initialize: function(){
         console.log("Troupe crée");
