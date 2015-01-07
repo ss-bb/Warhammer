@@ -1,5 +1,4 @@
 var Unit = Backbone.Model.extend({
-
     defaults:{
         M: 0,
         CC: 1,
@@ -127,7 +126,11 @@ var Equipement = Backbone.Model.extend({
     }
 });
 
+var Troop = Backbone.Collection.extend({
+    model: Unit
+});
 
+/*
 var Troop = Backbone.Model.extend({
 
     defaults:{
@@ -147,8 +150,8 @@ var Troop = Backbone.Model.extend({
 
     initialize: function(){
         console.log("Troupe crée");
-        this.on("change:Degatrecu", this.changedegat /*function to call*/, this);
-        this.on("change:DmgTurn", this.changedmgturn/*function to call*/, this);
+        this.on("change:Degatrecu", this.changedegat , this);
+        this.on("change:DmgTurn", this.changedmgturn, this);
     },
 
     changedegat: function(model, value, options){
@@ -222,4 +225,4 @@ var Troop = Backbone.Model.extend({
         ajouterTexteCombat("l'armure de " +enemyTroop.cid+ " lui évite "+attaqueSauvegarder+"degats au total",'blue');
         enemyTroop.set('DmgTurn',attaqueNonSauvegarder);
     }
-});
+});*/

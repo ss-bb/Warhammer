@@ -45,17 +45,19 @@ function lancerTest() {
     console.log(troll);
     var sacdesable = new Unit({Pv: 3, Svg: 2, CC: 3, F: 10, E: 3, A: 1});
     console.log(sacdesable);
-    console.log("test du combat");
-    troll.attaquerHeros(sacdesable);
 
+    console.log("test du combat");
+    troll.attaquer(sacdesable);
 
     console.log("\ntest des autre truc\n");
     //test de création de l'infoUnit
     var InfoTroll = new UnitBestaire({PointCost: 35, Race: "ogre"});
     console.log("InfoTroll : " + InfoTroll);
+
     //test de création d'élément.
     var forest = new Element({slow: 1, protect: 1});
     console.log("forest : " + forest);
+
     //test de création d'équipement et d'ajout a l'unité.
     var armor = new Equipement();
     troll.addEquipement(armor);
@@ -63,8 +65,8 @@ function lancerTest() {
 
     console.log("\n test des troupes\n");
     //test de la troupe
-    var uniteogre = new Troop({unit: troll, number: 3});
-    var unitesac = new Troop({unit:sacdesable,number:5});
+    var uniteogre = new Troop;
+    var unitesac = new Troop;
     uniteogre.addEquipement(armor);
     console.log("uniteogre : " + uniteogre);
 
